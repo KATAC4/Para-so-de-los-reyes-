@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby Interactivo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="lobby_style.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>NEXUS</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link">Inicio</a></li>
+                    <li><a href="#" class="nav-link">Servicios</a></li>
+                    <li><a href="#" class="nav-link">Galería</a></li>
+                    <li><a href="#" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Explora un Mundo de Posibilidades 😊</h1>
+                <p>Descubre experiencias interactivas únicas que combinan diseño innovador y tecnología de vanguardia para crear momentos memorables.</p>
+                <a href="#" class="btn">Comenzar Aventura</a>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <h3>Interacción Fluida</h3>
+                    <p>Diseño responsivo que se adapta a tus movimientos.</p>
+                </div>
+                <div class="floating-card card-2">
+                    <h3>Animaciones Dinámicas</h3>
+                    <p>Efectos visuales que responden a tus acciones.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h3>Efectos Visuales</h3>
+                <p>Experimenta animaciones suaves y transiciones elegantes que mejoran la experiencia de usuario.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mouse-pointer"></i>
+                </div>
+                <h3>Interacción Total</h3>
+                <p>Cada elemento responde a tus acciones con feedback visual inmediato y satisfactorio.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Diseño Vibrante</h3>
+                <p>Colores atractivos y combinaciones armónicas que crean una atmósfera envolvente.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="social-icons">
+                <a href="albertopico618@gmail.com" class="Gmail">Gmail</a>
+                <a href="#" class="facebook">facebook</a>
+                <a href="#" class="instagram">instagram</a>
+                <a href="+5356765790" class="whatsApp">whatsApp</a>
+            </div>
+            <p>&copy; 2025 Alberto Pico Rodriguez. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Crear partículas flotantes
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 100;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posición inicial aleatoria
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Duración y delay de animación aleatorios
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                // Opacidad aleatoria
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Efecto de interacción con el cursor
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.feature-card, .floating-card');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardX = rect.left + rect.width / 2;
+                const cardY = rect.top + rect.height / 2;
+                
+                const angleX = (cardY - e.clientY) / 20;
+                const angleY = (e.clientX - cardX) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+        });
+
+        // Resetear transformación cuando el cursor sale
+        document.addEventListener('mouseleave', () => {
+            const cards = document.querySelectorAll('.feature-card, .floating-card');
+            cards.forEach(card => {
+                card.style.transform = '';
+            });
+        });
+
+        // Efecto de escritura para el título
+        function typeWriterEffect() {
+            const title = document.querySelector('.hero h1');
+            const text = title.innerHTML;
+            title.innerHTML = '';
+            
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    title.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, 50);
+        }
+
+        // Inicializar efectos cuando la página carga
+        window.addEventListener('load', () => {
+            createParticles();
+            typeWriterEffect();
+            
+            // Añadir efecto de aparición escalonada a las tarjetas de características
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                card.style.animation = `fadeInUp 0.5s ease ${index * 0.2}s both`;
+            });
+        });
+
+        // Efecto de sonido al hacer clic en los botones (simulado)
+        document.querySelectorAll('.btn, .nav-link').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Crear efecto de onda
+                const ripple = document.createElement('div');
+                ripple.style.position = 'fixed';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba = (255, 255, 255, 0.5)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.pointerEvents = 'none';
+                
+                const size = Math.max(element.offsetWidth, element.offsetHeight);
+                ripple.style.width = `${size}px`;
+                ripple.style.height = `${size}px`;
+                
+                const rect = element.getBoundingClientRect();
+                ripple.style.left = `${rect.left + (element.offsetWidth - size) / 2}px`;
+                ripple.style.top = `${rect.top + (element.offsetHeight - size) / 2}px`;
+                
+                document.body.appendChild(ripple);
+                
+                // Eliminar el elemento después de la animación
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Añadir estilo para la animación de ripple
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
